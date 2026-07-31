@@ -1,0 +1,5 @@
+# Playwright MCP 本地验证截图（临时产物，不入库）
+.playwright-mcp/
+
+# macOS
+.DS_Store
