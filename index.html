@@ -62,10 +62,8 @@
   }
   .logo { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 650; }
   .logo .mark {
-    width: 30px; height: 30px; border-radius: 8px;
-    display: grid; place-items: center;
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
-    color: #fff; font-size: 16px; font-weight: 700; line-height: 1;
+    width: 30px; height: 30px;
+    display: block; flex: none;
   }
   .logo .sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
   .spacer { flex: 1; }
@@ -232,7 +230,23 @@
 
 <header>
   <div class="logo">
-    <div class="mark">▦</div>
+    <svg class="mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="30" height="30" role="img" aria-hidden="true">
+      <defs>
+        <linearGradient id="markG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#2563eb"/>
+          <stop offset="1" stop-color="#7c3aed"/>
+        </linearGradient>
+      </defs>
+      <rect width="32" height="32" rx="7" fill="url(#markG)"/>
+      <g fill="#ffffff">
+        <rect x="7" y="7" width="7" height="7" rx="1"/>
+        <rect x="18" y="7" width="7" height="7" rx="1"/>
+        <rect x="7" y="18" width="7" height="7" rx="1"/>
+        <rect x="18" y="18" width="3" height="3"/>
+        <rect x="22" y="22" width="3" height="3"/>
+        <rect x="18" y="24" width="3" height="3"/>
+      </g>
+    </svg>
     <div>
       二维码工具
       <div class="sub">生成 / 识别 / 纯本地</div>
