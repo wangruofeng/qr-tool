@@ -93,6 +93,11 @@
     text-transform: uppercase; letter-spacing: .03em;
     display: flex; align-items: center; gap: 8px;
   }
+  /* 生成 / 预览 同一行等高（不影响下方识别 / 说明行）；预览纵向弹性，码图垂直居中。
+     min-width:0 切断 flex/grid 项的 min-width:auto，防止宽条形码把轨道撑破（配合下方 overflow-x 滚动） */
+  #genCard, #previewCard { align-self: stretch; min-width: 0; }
+  #previewCard { display: flex; flex-direction: column; }
+  #previewCard .qr-stage { flex: 1; min-width: 0; }
 
   textarea {
     width: 100%; min-height: 110px; padding: 10px 12px; resize: vertical;
@@ -168,6 +173,7 @@
     padding: 14px; background: #fff; border-radius: var(--radius);
     border: 1px solid var(--border); box-shadow: var(--shadow);
     line-height: 0;
+    max-width: 100%; overflow-x: auto; /* 条形码过宽时在组件内横向滚动，不撑破卡片 */
   }
   #qrCanvas { image-rendering: pixelated; }
   .qr-empty { color: var(--text-faint); font-size: 13px; text-align: center; line-height: 1.8; }
@@ -307,7 +313,7 @@
       <div class="tip">生成与识别全部在浏览器本地完成，内容不上传。纠错级别越高，污损容错越强，码点越密。</div>
     </div>
 
-    <div class="card">
+    <div class="card" id="previewCard">
       <h2>预览</h2>
       <div class="qr-stage">
         <div class="qr-empty" id="qrEmpty"><span class="big">▦</span>输入内容后自动生成</div>
@@ -2950,6 +2956,18 @@ function showDecode(text, errMsg, format) {
       openBtn.style.alignItems = 'center';
       openBtn.style.textDecoration = 'none';
       btnRow.appendChild(openBtn);
+    }
+    if (format === 'qr_code') {
+      const genBtn = document.createElement('button');
+      genBtn.className = 'btn';
+      genBtn.textContent = '生成二维码';
+      genBtn.addEventListener('click', () => {
+        qrText.value = text;
+        setMode('qr'); // 内部会重新 draw()
+        genCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        toast('已填入生成区');
+      });
+      btnRow.appendChild(genBtn);
     }
     decodeResult.appendChild(label);
     decodeResult.appendChild(txt);
